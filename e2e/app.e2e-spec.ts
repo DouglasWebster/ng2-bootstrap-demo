@@ -1,6 +1,6 @@
 import { Ng2BootstrapFaultPage } from './app.po';
 
-describe('ng2-bootstrap-fault App', function() {
+describe('ng2-bootstrap-demo App', function() {
   let page: Ng2BootstrapFaultPage;
 
   beforeEach(() => {
