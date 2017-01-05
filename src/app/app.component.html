@@ -1,3 +1,99 @@
 <h1>
   {{title}}
 </h1>
+<alert type="success">
+  <strong>Well done!</strong> You successfully read this important alert message.
+</alert>
+<alert type="info">
+  <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
+</alert>
+<alert type="warning">
+  <strong>Warning!</strong> Better check yourself, you're not looking too good.
+</alert>
+<alert type="danger">
+  <strong>Oh snap!</strong> Change a few things up and try submitting again.
+</alert>
+<alert type="success" dismissOnTimeout="5000">
+  <strong>Well done!</strong> You successfully read this important alert message.
+</alert>
+ 
+<p>If you missed alert on top of me, just press <code>Add more</code> button</p>
+<div *ngFor="let alert of alerts">
+  <alert [type]="alert.type" [dismissOnTimeout]="alert.timeout">{{ alert.msg }}</alert>
+</div>
+<button type="button" class="btn btn-primary" (click)="add()">Add more</button>
+
+<div (click)="$event.preventDefault()">
+  <p>Select a tab by setting active binding to true:</p>
+  <p>
+    <button type="button" class="btn btn-primary btn-sm" (click)="tabs[0].active = true">Select second tab</button>
+    <button type="button" class="btn btn-primary btn-sm" (click)="tabs[1].active = true">Select third tab</button>
+  </p>
+  <p>
+    <button type="button" class="btn btn-primary btn-sm" (click)="tabs[1].disabled = ! tabs[1].disabled">Enable / Disable third tab</button>
+  </p>
+  <hr />
+  <tabset>
+    <tab heading="Static title">Static content</tab>
+    <tab *ngFor="let tabz of tabs"
+         [heading]="tabz.title"
+         [active]="tabz.active"
+         (select)="tabz.active = true"
+         (deselect)="tabz.active = false"
+         [disabled]="tabz.disabled"
+         [removable]="tabz.removable"
+         (removed)="removeTabHandler(tabz)"
+         [customClass]="tabz.customClass">
+      {{tabz?.content}}
+    </tab>
+    <tab (select)="alertMe()">
+      <template tabHeading>
+        <i class="glyphicon glyphicon-bell"></i> Alert!
+      </template>
+      I've got an HTML heading, and a select callback. Pretty cool!
+    </tab>
+  </tabset>
+ 
+  <hr />
+ 
+  <tabset [vertical]="true" type="pills">
+    <tab heading="Vertical 1">Vertical content 1</tab>
+    <tab heading="Vertical 2">Vertical content 2</tab>
+  </tabset>
+ 
+  <hr />
+ 
+  <p><i>Bootstrap 4 doesn't have justified classes</i></p>
+  <tabset [justified]="true">
+    <tab heading="Justified">Justified content</tab>
+    <tab heading="SJ">Short Labeled Justified content</tab>
+    <tab heading="Long Justified">Long Labeled Justified content</tab>
+  </tabset>
+</div>
+<div class="row">
+  <div class="col-lg-6" style="margin-top: 10px;">
+    <h4>Default</h4>
+    <pagination [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+    <pagination [boundaryLinks]="true" [totalItems]="totalItems" [(ngModel)]="currentPage" class="pagination-sm"
+                previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+    <pagination [directionLinks]="false" [boundaryLinks]="true" [totalItems]="totalItems"
+                [(ngModel)]="currentPage"></pagination>
+    <pagination [directionLinks]="false" [totalItems]="totalItems" [(ngModel)]="currentPage"
+                (numPages)="smallnumPages = $event"></pagination>
+    <pre class="card card-block card-header">The selected page no: {{currentPage}}/{{smallnumPages}}</pre>
+    <button type="button" class="btn btn-info" (click)="setPage(3)">Set current page to: 3</button>
+  </div>
+  <hr class="visible-md visible-xs hidden-lg-up">
+  <div class="col-lg-6" style="margin-top: 10px;">
+    <h4>Pager</h4>
+    <pager [totalItems]="totalItems" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)" pageBtnClass="btn"></pager>
+ 
+    <hr/>
+    <h4>Limit the maximum visible buttons</h4>
+    <pagination [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize" class="pagination-sm"
+                [boundaryLinks]="true"></pagination>
+    <pagination [totalItems]="bigTotalItems" [(ngModel)]="bigCurrentPage" [maxSize]="maxSize" class="pagination-sm"
+                [boundaryLinks]="true" [rotate]="false" (numPages)="numPages = $event"></pagination>
+    <pre class="card card-block card-header">Page: {{bigCurrentPage}} / {{numPages}}</pre>
+  </div>
+</div>
